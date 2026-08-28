@@ -1,0 +1,256 @@
+# Coprint Color Upgrade for the Elegoo Orange Storm Giga 3D Printer 
+
+> The purpose of this guide is to provide the steps necessary to add a CoPrint KCM Set color upgrade to your Elegoo Orange Storm Giga 3D Printer
+
+![Finished upgrade overview](images/hero-shot.jpg)
+<!-- Swap in a wide "final result" photo here. Keep images in an /images folder next to this file. -->
+
+---
+
+## Table of Contents
+- [Overview](#overview)
+- [What You'll Need](#what-youll-need)
+- [Before You Start - Backup your configs](#before-you-start)
+- [Step 1: Adjust Z-Offset](#adjust-z-offset)
+- [Step 2: Enable root access](#enable-root-access)
+- [Step 3: Print/Mount Hardware](#print-mount-hardware)
+- [Step 4: Get DeviceIDs and Update Configs](#device-config-update)
+- [Step 5: First boot with new Config](#first-config-boot)
+- [Step 6: Set Z-Offset](#chromahead-z-offset)
+- [Step 7: Calibration](#printer-calibration)
+- [Step 8: OrcaProfile](#orca-profile-usage)
+- [Step 9: Staging Filament](#staging-filament)
+- [Configuration Files](#configuration-files)
+- [Troubleshooting](#troubleshooting)
+- [Credits / Notes](#credits--notes)
+
+---
+
+## Overview
+
+Explain what "coprint color" is, what problem it solves, and what the end result looks like. A couple of paragraphs is plenty — save the details for the steps below.
+
+## What You'll Need
+
+**Hardware**
+- [ ] Original Factory Elegoo Orange Storm Giga
+- [ ] CoPrint 4 Color KCM set - Chromahead, KCM, 4 extruder kit
+
+
+**Software / Files**
+- [ ] Firmware version X.X
+- [ ] Config files (included in this repo under `/configs`)
+- [ ] Slicer Profile (included in this repo under `/orcaprofile`)
+- [ ] SSH Client - ex.  Putty
+
+## Before You Start - Backup your configs
+
+> **Important** 
+  
+ First, before making any hardware/software changes, back up your existing files through the UI.  Turn your machine on, connect to it through the UI via it's IP address, using your favorite browser, and navigate to the Configure section to see a list of files.  From here you can download each one by right clicking and choosing download.  Keep these files safe in case you want to go back to the original factory OEM setup.
+       	 
+	What I backed up:
+	 fluidd.cfg
+	 moonraker.conf
+	 plr.cfg
+	 printer.cfg
+	 znp_mcu.cfg
+	 
+
+## Step 1: Adjust Z Offset for the existing extruder
+
+    LCD - Advanced settings?  - >  Offset
+    Raise it about an inch from the build plate
+	
+	This step is essentinal for proper calibration once the components are installed.
+	If you don't do this step, you risk breaking the hotend when it comes to homing and calibration time, like I did.    
+	
+
+```ini
+# Example config snippet
+setting_name = value
+another_setting = value
+```
+
+![Step 1 photo](images/step-1.jpg)
+
+## Step 2: Enable root access
+
+  Enable root access for your machine using the LCD menu
+
+  This step is required in order to get the username:password to log into your device using SSH. 
+  You will need to get the device IDs specific to your coprint hardware, and put the values where instructed in the configs
+  
+  ???can I issue some gcode to get a list of device ids so I don't have to do this step?
+
+
+![Step 2 photo](images/step-2.jpg)
+
+## Step 3: Print the assemblyParts files and mount your kit
+
+  Mount your kit.
+  
+  How I have it rigged for now..  4 brackets and 2 zip ties
+  
+  
+
+![Step 3 photo](images/step-3.jpg)
+
+
+## Step 4: Get device IDs and update configs
+
+     
+     Power your coprint on
+     Power your Giga on
+	 
+	 It will boot to an error on the LCD but you can still access the device via the UI or SSH
+	 
+	 
+	 SSH into the giga device with username:password from Step 2
+	 
+	 list device ids  
+	     ls -al  /dev/serial/by-id/
+		 
+     Output:  	 
+     
+	 root@giga:/# ls -al /dev/serial/by-id
+     usb-head_stm32f103xe_48FF6D067265545217210187-if00
+	 usb-kcm_stm32f103xe_53FF6A067189564955502487-if00
+	 
+	 -Change chromahead.cfg and kcm.cfg to your values
+	 
+	     chromahead.cfg gets "usb-head" device-id
+	     kcm.cfg  gets "usb-kcm" device-id
+	
+	 
+	 -Save your config changes
+		
+	 
+![Step 4 photo](images/step-4.jpg)
+
+
+## Step 5: First boot after config changes
+
+     Going forward, you need both the chromahead installed AND the original giga print head connected but just hanging on the gantry temporarily. 
+	 Once the boot is successful, and you see the normal Elegoo Home screen without errors, you can then remove the original print head for the next operations.  
+	 
+	 NOTE:  You will need to do this every time you power your giga/coprint system up.
+            There is probably a way to bypass this in the config but I haven't researched that as it's a minor inconvenience to connect it at boot for now
+
+![Step 5 photo](images/step-5.jpg)
+
+## Step 6: Z Offset
+
+  Home the printer and then set the new Z offset for your chromahead
+
+![Step 6 photo](images/step-6.jpg)
+
+## Step 7: Calibration:  Perform platform measurement, Leveling, Input Shaping
+
+  Use LCD settings to perform platform measurement and auto leveling 
+   
+   Note: requires the bed_mesh.cfg and input_shaper.cfg files
+
+![Step 7 photo](images/step-7.jpg)     
+   
+
+
+## Step 8: Orca Profile
+
+    Set the colors in the slicer to match how they are loaded in the CX motors, with the first filament being the one your print starts printing first.  You can verify this in your slicer preview.
+	
+	Choose number of heat beds - All or Bed 0,  Bed 1, Bed 2, Bed 3
+	
+	Two provided example profiles:  ALL   - All beds are turned on
+	Bed 0 Selection:  Only heats bed 0  - Change this or create your own profiles for what beds you want turned once
+	
+	
+	Note:   When the printer starts your job, only the first bed will heat up first.   After this is complete the rest of your beds will heat up, then the print job will proceed.
+	Probably a way to fix this with the gcode macros but this is what I'm doing for now
+	
+	
+
+![Step 8 photo](images/step-8.jpg)
+
+## Step 9:  Staging your filament
+
+
+   - BEFORE EACH PRINT -
+
+   Check filament sensor for any leftover filament 
+   
+   Ensure you have removed the cut piece from the 8 in 1 feeder.  Remove the plug, unscrew the feeder, pull the filament out, screw feeder back in and connect the plug.
+
+   This cut piece is normally not there after a succesful print but it's worth checking if you're trying to stage filament for your print and it's jamming. 
+      
+
+   Command:
+    QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
+	
+   Output:
+      
+	    if filament is detected, unload it
+		
+		T0
+		UNLOAD_FILAMENT
+    	
+	
+   Load your filaments in the CX1 units so they match the color order in your slicer  1, 2 , 3, 4 etc
+
+   
+   Now Stage your filaments by doing the first filament that will print, LAST.   example ( 2, 3, 4, and then 1)
+  
+   
+    Command:  
+
+		T1
+		LOAD_FILAMENT
+
+		Wait for AutoLoad Finished before proceeding.
+
+    Command:  
+	
+		T2
+		LOAD_FILAMENT
+
+		Wait for AutoLoad Finished.
+
+    Command:  
+	
+		T3
+		LOAD_FILAMENT
+
+		Wait for AutoLoad Finished.
+    
+	Command:  		
+
+		T0
+		LOAD_FILAMENT
+
+		Wait for AutoLoad Finished.
+	
+	
+
+![Step 9 photo](images/step-9.jpg)
+
+
+
+## Configuration Files
+
+| File | Purpose |
+|------|---------|
+| `configs/printer.cfg` | What it does |
+| `configs/kcm.cfg` | Contains KCM device specific config - You make a change here| 
+| `configs/chromahead.cfg` | Contains chromahead specific config - You make a change here |
+| `configs/bed_mesh.cfg` | Contains bed mesh data |
+| `configs/input_shaper.cfg` | Contain input shaper profile data |
+| `configs/cp_macro.cfg` | Contains gcode for macros called during printer functions in the slicer or firmware |
+
+## Troubleshooting
+
+**Problem:** Something doesn't work
+**Fix:** How to fix it
+
+## Credits / Notes
+
+Any acknowledgements, source links, or license info.
