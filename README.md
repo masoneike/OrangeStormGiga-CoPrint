@@ -38,16 +38,15 @@
 
 
 **Software / Files**
-- [ ] Firmware version X.X
 - [ ] Config files (included in this repo under `/configs`)
 - [ ] Slicer Profile (included in this repo under `/orcaprofile`)
-- [ ] SSH Client - ex.  Putty
+- [ ] SSH Client - ex. Putty
 
 ## Before You Start 
 
 > **Important** 
   
- First, before making any hardware/software changes, back up your existing files through the UI.  Turn your machine on, connect to it through the UI via it's IP address, using your favorite browser, and navigate to the Configure section to see a list of files.  From here you can download each one by right clicking and choosing download.  Keep these files safe in case you want to go back to the original factory OEM setup.
+ Before making any hardware or software changes, back up your existing files through the UI.  Turn your machine on, connect to it through the UI via it's IP address, using your favorite browser, and navigate to the Configure section to see a list of files.  From here you can download each one by right clicking and choosing download.  Keep these files safe in case you want to go back to the original factory OEM setup.
        	 
 	What I backed up:
 	 fluidd.cfg
@@ -59,9 +58,12 @@
 
 ## Step 1: Adjust Z Offset
     
-    LCD - Advanced settings?  - >  Offset
-    Raise it about an inch from the build plate
+	While your machine is on..  Adjust the Z offset of the existing extruder in preparation for configuring the new one
+    
+	LCD - Advanced settings - >  Z Offset
+    Raise it about an inch from the build plate.  Anywhere around there is fine.
 	
+> **Important** 
 	This step is essentinal for proper calibration once the Chromahead components are installed.
 	If you don't do this step, you risk breaking the hotend when it comes to homing and calibration time, like I did.    
 	
@@ -71,11 +73,11 @@
 ## Step 2: Enable root access
 
   Enable root access for your machine using the LCD menu
-
-  This step is required in order to get the username:password to log into your device using SSH. 
-  You will need to get the device IDs specific to your coprint hardware, and put the values where instructed in the configs
   
-  ???can I issue some gcode to get a list of device ids so I don't have to do this step?
+  LCD - Advanced Settings - Enable root?
+
+  This step is required in order to get the username:password to log into your device using SSH.  This will allow you to  
+  get the device IDs specific to your coprint hardware so you can update the configs.    
 
 
 ![Step 2 photo](images/step-2.jpg)
@@ -84,7 +86,9 @@
 
   Mount your kit.
   
-  How I have it rigged for now..  4 brackets and 2 zip ties
+  AssemblyParts.zip from CoPrint github
+  
+  How I have it rigged for now..  4 brackets and 2 zip ties strapped around the bracket model and the top bar of the giga
   
   
 
@@ -102,7 +106,8 @@
 	 
 	 SSH into the giga device with username:password from Step 2
 	 
-	 list device ids  
+	#List Device IDs
+	 	  
 	     ls -al  /dev/serial/by-id/
 		 
      Output:  	 
@@ -111,13 +116,13 @@
      usb-head_stm32f103xe_48FF6D067265545217210187-if00
 	 usb-kcm_stm32f103xe_53FF6A067189564955502487-if00
 	 
-	 -Change chromahead.cfg and kcm.cfg to your values
+	#Copy these values into the config
 	 
-	     chromahead.cfg gets "usb-head" device-id
-	     kcm.cfg  gets "usb-kcm" device-id
+	 chromahead.cfg gets "usb-head" device-id from above, where noted in the file with "CHANGETOYOURHARDWAREIDHERE"
+	 kcm.cfg  gets "usb-kcm" device-id from above, where noted in the file with "CHANGETOYOURHARDWAREIDHERE"
 	
 	 
-	 -Save your config changes
+	#Save your config changes
 		
 	 
 ![Step 4 photo](images/step-4.jpg)
@@ -125,23 +130,24 @@
 
 ## Step 5: First boot 
 
-     Going forward, you need both the chromahead installed AND the original giga print head connected but just hanging on the gantry temporarily. 
-	 Once the boot is successful, and you see the normal Elegoo Home screen without errors, you can then remove the original print head for the next operations.  
+     From now on, you need both the chromahead AND the original giga print head connected during the first time the printer boots.	 Once the boot is successful, and you see 
+	 the normal Elegoo Home screen without errors, you can then remove the original print head for the next operations.  I just leave my original extruder dangling on the gantry.
 	 
-	 NOTE:  You will need to do this every time you power your giga/coprint system up.
-            There is probably a way to bypass this in the config but I haven't researched that as it's a minor inconvenience to connect it at boot for now
+	 There is probably a way to bypass this in the config but I haven't researched that as it's a minor inconvenience to connect it at boot for now
 
 ![Step 5 photo](images/step-5.jpg)
 
 ## Step 6: Set Z Offset
 
-  Home the printer and then set the new Z offset for your chromahead
+  Using the LCD, Home the printer, and then set the new Z offset for your chromahead
+  You should have plenty of room to lower it thanks for the previous step.    
+      
 
 ![Step 6 photo](images/step-6.jpg)
 
 ## Step 7: Perform Calibrations
 
-  Perform platform measurement, Leveling, Input Shaping
+  Perform platform measurement, Auto leveling and Input Shaping
 
   Use LCD settings to perform these steps
    
@@ -154,25 +160,46 @@
 
 ## Step 8: Orca Profile Usage
 
-    Set the colors in the slicer to match how they are loaded in the CX motors, with the first filament being the one your print starts printing first.  You can verify this in your slicer preview.
+    The profiles I use in OrcaSlicer, not ElegooSlicer, and can be found in the orcaprofile folder.
+	There is a profile for how to using a single bed, and one for all 4 beds. 
+	This is how you control what beds bet heated for your prints.
 	
-	Choose number of heat beds - All or Bed 0,  Bed 1, Bed 2, Bed 3
+    # Choose profile for number of heated beds required	
 	
-	Two provided example profiles:  ALL   - All beds are turned on
-	Bed 0 Selection:  Only heats bed 0  - Change this or create your own profiles for what beds you want turned once
+	Two provided example profiles: 
+	ALL :  All beds are turned on
+	Bed 0: Only heats bed 0  
+	
+	Change these or create your own profiles as needed
+	
+	Note: When the printer starts your job, only the first bed will heat up first.   After this is complete the rest of your beds will heat up, as needed, and then the print job will proceed.
+	Probably a way to fix this with the gcode macros but this is what I'm doing for now.
 	
 	
-	Note:   When the printer starts your job, only the first bed will heat up first.   After this is complete the rest of your beds will heat up, then the print job will proceed.
-	Probably a way to fix this with the gcode macros but this is what I'm doing for now
+	# Filament order for the slicer and CX1 motors	 
 	
+	Set the colors in the slicer to match how they are loaded in the CX motors
+
+    Example:
 	
+    OrcaSlicer has 4 filaments added as follows:
+	
+     1 = White, 2= Green, 3=Blue, 4=Black
+
+   
+   Load your filaments in the CX1 units so they match the slicer order starting going from left to right:
+		
+	1st CX= White, 2nd CX= Green, 3rd CX= Blue,  4th CX=Black
+				
+   Push about a 1ft of filament through each one.  The next step will finish loading them properly for printing.
 
 ![Step 8 photo](images/step-8.jpg)
+
 
 ## Step 9:  Staging your filament
 
 
-   - BEFORE EACH PRINT -
+  > **Before each print** 
    
    # See if any filament is detected
    
@@ -180,43 +207,38 @@
    
     QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
 	
-   Output:
-    
-         [Insert example here]	
-			
-   
-   Unload the filament with these console commands:
-   
-	T0  
-	UNLOAD_FILAMENT
-	
-	CX motor reference: 
+   If filament is detected then you will need to unload it using a console command:
+   	
+	Filament -> CX motor reference: 	
 	1 -> T0
 	2 -> T1
 	3 -> T2
 	4 -> T3	
-
-
-   If after doing this and you start a print, and it jams,  more than likely there may be a cut piece in the 8in1 feeder assembly to remove.  
+      
+   
+   Example: Unload the 1st filament
+   
+	T0  
+	UNLOAD_FILAMENT
 	
+
+   If after doing this you start a print and it jams, more than likely there may be a cut piece in the 8in1 feeder assembly to remove.  	
    Remove the connector plug, unscrew the feeder, pull the filament piece out, screw feeder back in and connect the plug.
-
-   This cut piece is normally not there after a succesful print but it's worth checking if you're trying to stage filament or print and it's jamming.     
-		     
+   This cut piece is normally not there after a succesful print but it's worth checking if you're trying to stage filament or print and it's jamming.
     	
-   # Filament Order 
+   # Stage each filament one by one     
    
-   Load your filaments in the CX1 units so they match the color order in your slicer  1, 2 , 3, 4 etc   
-   
-   "Stage" your filaments running a console command that feeds the filament into the chromahead until it senses it, retracts and parks itself
+    Run these console commands to make sure each filament is ready for printing in the chromahead.  Each filament will get auto-loaded until the filament is detected in the chromahead, then retract a little and "Park" itself.  You will see this happen in the console for each filament.  
  
-   Do the FIRST filament that will print, LAST. 
+         
+   The FIRST filament to print, should be staged LAST.
    
-   Example:  If the first color in your slicer is the first color to print, you would stage your filaments in this order:  2, 3, 4, 1
-     
-    Command:  
-
-		T1
+   Example:  If the first color in your slicer is the first color to print, you would stage 
+   your filaments in this order:  2, 3, 4, 1   
+       
+   Like so...
+   
+   		T1
 		LOAD_FILAMENT
 
 	Note: Wait for "AutoLoad Finished" before proceeding to the next command
@@ -233,8 +255,7 @@
 
 	Note: Wait for "AutoLoad Finished" before proceeding to the next command
     
-	Command:  		
-
+	
 		T0
 		LOAD_FILAMENT
 
