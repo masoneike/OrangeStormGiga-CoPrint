@@ -28,7 +28,7 @@
 
 ## Overview
 
-Explain what "coprint color" is, what problem it solves, and what the end result looks like. A couple of paragraphs is plenty — save the details for the steps below.
+ If you are looking to add a CoPrint KCM Set to your existing Elegoo Orange Storm Giga 3D printer, this should hopefully help.  Using these config files and the device ID's of your coprint hardware, you too can add multicolor capabilities to your printer.   Print some files, upload some files, mount your hardware and be on your way......
 
 ## What You'll Need
 
