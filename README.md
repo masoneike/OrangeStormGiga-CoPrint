@@ -11,7 +11,7 @@
 - [Overview](#overview)
 - [What You'll Need](#what-youll-need)
 - [Before You Start](#before-you-start)
-- [Step 1: Adjust Z Offset](#adjust-z-offset)
+- [Step 1: Adjust Z Offset](#step-1-adjust-z-offset)
 - [Step 2: Enable root access](#enable-root-access)
 - [Step 3: Print Mount Hardware](#print-mount-hardware)
 - [Step 4: Update Configs](#update-configs)
@@ -64,6 +64,7 @@
     Raise it about an inch from the build plate.  Anywhere around there is fine.
 	
 > **Important** 
+
 	This step is essentinal for proper calibration once the Chromahead components are installed.
 	If you don't do this step, you risk breaking the hotend when it comes to homing and calibration time, like I did.    
 	
