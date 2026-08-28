@@ -10,15 +10,15 @@
 ## Table of Contents
 - [Overview](#overview)
 - [What You'll Need](#what-youll-need)
-- [Before You Start - Backup your configs](#before-you-start)
-- [Step 1: Adjust Z-Offset](#adjust-z-offset)
+- [Before You Start](#before-you-start)
+- [Step 1: Adjust Z Offset](#adjust-z-offset)
 - [Step 2: Enable root access](#enable-root-access)
-- [Step 3: Print/Mount Hardware](#print-mount-hardware)
-- [Step 4: Get DeviceIDs and Update Configs](#device-config-update)
-- [Step 5: First boot with new Config](#first-config-boot)
-- [Step 6: Set Z-Offset](#chromahead-z-offset)
-- [Step 7: Calibration](#printer-calibration)
-- [Step 8: OrcaProfile](#orca-profile-usage)
+- [Step 3: Print Mount Hardware](#print-mount-hardware)
+- [Step 4: Update Configs](#update-configs)
+- [Step 5: First boot](#first-boot)
+- [Step 6: Set Z Offset](#set-z-offset)
+- [Step 7: Perform Calibrations](#perform-calibrations)
+- [Step 8: Orca Profile Usage](#orca-profile-usage)
 - [Step 9: Staging Filament](#staging-filament)
 - [Configuration Files](#configuration-files)
 - [Troubleshooting](#troubleshooting)
@@ -43,7 +43,7 @@ Explain what "coprint color" is, what problem it solves, and what the end result
 - [ ] Slicer Profile (included in this repo under `/orcaprofile`)
 - [ ] SSH Client - ex.  Putty
 
-## Before You Start - Backup your configs
+## Before You Start 
 
 > **Important** 
   
@@ -57,20 +57,14 @@ Explain what "coprint color" is, what problem it solves, and what the end result
 	 znp_mcu.cfg
 	 
 
-## Step 1: Adjust Z Offset for the existing extruder
-
+## Step 1: Adjust Z Offset
+    
     LCD - Advanced settings?  - >  Offset
     Raise it about an inch from the build plate
 	
-	This step is essentinal for proper calibration once the components are installed.
+	This step is essentinal for proper calibration once the Chromahead components are installed.
 	If you don't do this step, you risk breaking the hotend when it comes to homing and calibration time, like I did.    
 	
-
-```ini
-# Example config snippet
-setting_name = value
-another_setting = value
-```
 
 ![Step 1 photo](images/step-1.jpg)
 
@@ -86,7 +80,7 @@ another_setting = value
 
 ![Step 2 photo](images/step-2.jpg)
 
-## Step 3: Print the assemblyParts files and mount your kit
+## Step 3: Print Mount Hardware
 
   Mount your kit.
   
@@ -97,7 +91,7 @@ another_setting = value
 ![Step 3 photo](images/step-3.jpg)
 
 
-## Step 4: Get device IDs and update configs
+## Step 4: Update Configs
 
      
      Power your coprint on
@@ -129,7 +123,7 @@ another_setting = value
 ![Step 4 photo](images/step-4.jpg)
 
 
-## Step 5: First boot after config changes
+## Step 5: First boot 
 
      Going forward, you need both the chromahead installed AND the original giga print head connected but just hanging on the gantry temporarily. 
 	 Once the boot is successful, and you see the normal Elegoo Home screen without errors, you can then remove the original print head for the next operations.  
@@ -139,23 +133,26 @@ another_setting = value
 
 ![Step 5 photo](images/step-5.jpg)
 
-## Step 6: Z Offset
+## Step 6: Set Z Offset
 
   Home the printer and then set the new Z offset for your chromahead
 
 ![Step 6 photo](images/step-6.jpg)
 
-## Step 7: Calibration:  Perform platform measurement, Leveling, Input Shaping
+## Step 7: Perform Calibrations
 
-  Use LCD settings to perform platform measurement and auto leveling 
+  Perform platform measurement, Leveling, Input Shaping
+
+  Use LCD settings to perform these steps
    
-   Note: requires the bed_mesh.cfg and input_shaper.cfg files
+  Note: requires the bed_mesh.cfg and input_shaper.cfg files to be included properly in your printer.cfg
+
 
 ![Step 7 photo](images/step-7.jpg)     
-   
+  
 
 
-## Step 8: Orca Profile
+## Step 8: Orca Profile Usage
 
     Set the colors in the slicer to match how they are loaded in the CX motors, with the first filament being the one your print starts printing first.  You can verify this in your slicer preview.
 	
@@ -176,63 +173,79 @@ another_setting = value
 
 
    - BEFORE EACH PRINT -
-
-   Check filament sensor for any leftover filament 
    
-   Ensure you have removed the cut piece from the 8 in 1 feeder.  Remove the plug, unscrew the feeder, pull the filament out, screw feeder back in and connect the plug.
-
-   This cut piece is normally not there after a succesful print but it's worth checking if you're trying to stage filament for your print and it's jamming. 
-      
-
-   Command:
+   # See if any filament is detected
+   
+   Use this console command to check if the sensor has detected any filament from a previous print:
+   
     QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
 	
    Output:
-      
-	    if filament is detected, unload it
-		
-		T0
-		UNLOAD_FILAMENT
-    	
+    
+         [Insert example here]	
+			
+   
+   Unload the filament with these console commands:
+   
+	T0  
+	UNLOAD_FILAMENT
 	
-   Load your filaments in the CX1 units so they match the color order in your slicer  1, 2 , 3, 4 etc
+	CX motor reference: 
+	1 -> T0
+	2 -> T1
+	3 -> T2
+	4 -> T3	
 
+
+   If after doing this and you start a print, and it jams,  more than likely there may be a cut piece in the 8in1 feeder assembly to remove.  
+	
+   Remove the connector plug, unscrew the feeder, pull the filament piece out, screw feeder back in and connect the plug.
+
+   This cut piece is normally not there after a succesful print but it's worth checking if you're trying to stage filament or print and it's jamming.     
+		     
+    	
+   # Filament Order 
    
-   Now Stage your filaments by doing the first filament that will print, LAST.   example ( 2, 3, 4, and then 1)
-  
+   Load your filaments in the CX1 units so they match the color order in your slicer  1, 2 , 3, 4 etc   
    
+   "Stage" your filaments running a console command that feeds the filament into the chromahead until it senses it, retracts and parks itself
+ 
+   Do the FIRST filament that will print, LAST. 
+   
+   Example:  If the first color in your slicer is the first color to print, you would stage your filaments in this order:  2, 3, 4, 1
+     
     Command:  
 
 		T1
 		LOAD_FILAMENT
 
-		Wait for AutoLoad Finished before proceeding.
+	Note: Wait for "AutoLoad Finished" before proceeding to the next command
 
-    Command:  
-	
+    	
 		T2
 		LOAD_FILAMENT
 
-		Wait for AutoLoad Finished.
+	Note: Wait for "AutoLoad Finished" before proceeding to the next command
 
-    Command:  
-	
+    	
 		T3
 		LOAD_FILAMENT
 
-		Wait for AutoLoad Finished.
+	Note: Wait for "AutoLoad Finished" before proceeding to the next command
     
 	Command:  		
 
 		T0
 		LOAD_FILAMENT
 
-		Wait for AutoLoad Finished.
+	Note: Wait for "AutoLoad Finished" 
 	
-	
+		
 
 ![Step 9 photo](images/step-9.jpg)
 
+
+....Now you are ready to try a print..
 
 
 ## Configuration Files
