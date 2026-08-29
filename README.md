@@ -307,5 +307,4 @@ Printer is shutdown
 	run_current: 1.4  
 	hold_current: 1.0
 	interpolate: False```
-
-## Credits / Notes
+	
