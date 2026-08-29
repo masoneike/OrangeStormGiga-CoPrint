@@ -20,7 +20,7 @@
 - [Step 10: Your First Print](#step-10-your-first-print)
 - [Configuration Files](#configuration-files)
 - [Troubleshooting](#troubleshooting)
-- [Credits / Notes](#credits--notes)
+- [License](#license)
 
 ---
 
