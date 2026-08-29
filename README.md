@@ -208,33 +208,33 @@
 
 ## Step 8: Orca Profile Usage
 
-  The profiles I use in OrcaSlicer, not ElegooSlicer, and can be found in the orcaprofile folder.
-  There is a profile for how to using a single bed, and one for all 4 beds. 
-  This is how you control what beds bet heated for your prints.
+   The profiles I use in OrcaSlicer, not ElegooSlicer, and can be found in the orcaprofile folder.
+   There is a profile for how to using a single bed, and one for all 4 beds. 
+   This is how you control what beds bet heated for your prints.
 	
- # Choose profile for number of heated beds required	
+   # Choose profile for number of heated beds required	
 	
-  Two provided example profiles: 
-  ALL :  All beds are turned on
-  Bed 0: Only heats bed 0  
+   Two provided example profiles: 
+   ALL :  All beds are turned on
+   Bed 0: Only heats bed 0  
 	
-  Change these or create your own profiles as needed
+   Change these or create your own profiles as needed
 	
-  Note: When the printer starts your job, only the first bed will heat up first.   After this is complete the rest of your beds will heat up, as needed, and then the print job will proceed.
-  Probably a way to fix this with the gcode macros but this is what I'm doing for now.
+   Note: When the printer starts your job, only the first bed will heat up first.   After this is complete the rest of your beds will heat up, as needed, and then the print job will proceed.
+   Probably a way to fix this with the gcode macros but this is what I'm doing for now.
 	
 	
-  # Filament order for the slicer and CX1 motors	 
+   # Filament order for the slicer and CX1 motors	 
 	
-  Set the colors in the slicer to match how they are loaded in the CX motors
+   Set the colors in the slicer to match how they are loaded in the CX motors
 
-  Example:
+   Example:
 	
-  OrcaSlicer has 4 filaments added as follows:
+   OrcaSlicer has 4 filaments added as follows:
 	
-  1 = White, 2= Green, 3=Blue, 4=Black
+   1 = White, 2= Green, 3=Blue, 4=Black
    
-  Load your filaments in the CX1 units so they match the slicer order, going from left to right:
+   Load your filaments in the CX1 units so they match the slicer order, going from left to right:
 		
 	1st CX= White, 2nd CX= Green, 3rd CX= Blue,  4th CX=Black
 				
@@ -248,67 +248,67 @@
 ## Step 9:  Staging your filament
 
    
-  # See if any filament is detected
+   #See if any filament is detected
   
-  Use this console command to check if the sensor has detected any filament from a previous print:
+   Use this console command to check if the sensor has detected any filament from a previous print:
    
-  QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
+   QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
 	
-  If filament is detected then you will need to unload it using a console command:
+   If filament is detected then you will need to unload it using a console command:
    	
-  Filament -> CX motor reference: 	
+   Filament -> CX motor reference: 	
 	1 -> T0
 	2 -> T1
 	3 -> T2
 	4 -> T3	
       
    
-  Example: Unload the 1st filament
+   Example: Unload the 1st filament
    
 	T0  
 	UNLOAD_FILAMENT
 	
 
- If after doing this you start a print and it jams, more than likely there may be a cut piece in the 8in1 feeder assembly to remove.  	
- Remove the connector plug, unscrew the feeder, pull the filament piece out, screw feeder back in and connect the plug.
- This cut piece is normally not there after a succesful print but it's worth checking if you're trying to stage filament or print and it's jamming.
+   If after doing this you start a print and it jams, more than likely there may be a cut piece in the 8in1 feeder assembly to remove.  	
+   Remove the connector plug, unscrew the feeder, pull the filament piece out, screw feeder back in and connect the plug.
+   This cut piece is normally not there after a succesful print but it's worth checking if you're trying to stage filament or print and it's jamming.
     	
- # Stage each filament one by one     
+	# Stage each filament one by one     
    
- Run these console commands to make sure each filament is ready for printing in the chromahead.
- Each filament will get auto-loaded until the filament is detected in the chromahead, then retract a little and "Park" itself. 
- You will see this happen in the console for each filament.  
+	Run these console commands to make sure each filament is ready for printing in the chromahead.
+	Each filament will get auto-loaded until the filament is detected in the chromahead, then retract a little and "Park" itself. 
+	You will see this happen in the console for each filament.  
  
          
- The FIRST filament to print, should be staged LAST.
+	The FIRST filament to print, should be staged LAST.
    
- Example:  If the first color in your slicer is the first color to print, you would stage 
- your filaments in this order:  2, 3, 4, 1   
+	Example:  If the first color in your slicer is the first color to print, you would stage 
+	your filaments in this order:  2, 3, 4, 1   
        
-   Like so...
+	Like so...
    
    		T1
 		LOAD_FILAMENT
 
- Note: Wait for "AutoLoad Finished" before proceeding to the next command
+	Note: Wait for "AutoLoad Finished" before proceeding to the next command
 
     	
 		T2
 		LOAD_FILAMENT
 
- Note: Wait for "AutoLoad Finished" before proceeding to the next command
+	Note: Wait for "AutoLoad Finished" before proceeding to the next command
 
     	
 		T3
 		LOAD_FILAMENT
 
- Note: Wait for "AutoLoad Finished" before proceeding to the next command
+	Note: Wait for "AutoLoad Finished" before proceeding to the next command
     
 	
 		T0
 		LOAD_FILAMENT
 
- Note: Wait for "AutoLoad Finished" 
+	Note: Wait for "AutoLoad Finished" 
 	
 		
 
@@ -331,21 +331,20 @@
 
 ## Troubleshooting
 
-  #Errors:
-	TMC 'stepper_x' reports error: DRV_STATUS: 001f01c3 otpw=1(OvertempWarning!) ot=1(OvertempError!) ola=1(OpenLoad_A!) olb=1(OpenLoad_B!) t120=1 cs_actual=31
-	Once the underlying issue is corrected, use the
-	"FIRMWARE_RESTART" command to reset the firmware, reload the
-	config, and restart the host software.
-	Printer is shutdown		
+	#Errors:
+		TMC 'stepper_x' reports error: DRV_STATUS: 001f01c3 otpw=1(OvertempWarning!) ot=1(OvertempError!) ola=1(OpenLoad_A!) olb=1(OpenLoad_B!) t120=1 cs_actual=31
+		Once the underlying issue is corrected, use the
+		"FIRMWARE_RESTART" command to reset the firmware, reload the
+		config, and restart the host software.
+		Printer is shutdown		
 
-  #Problem
-	1.8 value for TMC stepper x resulted in the mobo getting hot on that chip during extended x/y movement for gyroid infill across flat plane
+	#Problem
+		1.8 value for TMC stepper x resulted in the mobo getting hot on that chip during extended x/y movement for gyroid infill across flat plane
 		
-  #Solution
-	adjusted value to 1.4, due to chroamead being heavier than the original, and it addressed this issue.  
-    alternate is to put a fan on the mobo
-	 - confirm your fans are working properly to begin with
-
+	#Solution
+		adjusted value to 1.4, due to chroamead being heavier than the original, and it addressed this issue.  
+		alternate is to put a fan on the mobo
+		- confirm your fans are working properly to begin with
 
 ## Notes
 
