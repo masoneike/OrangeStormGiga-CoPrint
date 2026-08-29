@@ -302,4 +302,10 @@ Printer is shutdown
 
 **Solution:** Adjust the value from 1.8 to 1.4 for `stepper_x` in the `printer.cfg` file. This issue is caused by the Chromahead being heavier than the original.
 
+```[tmc2209 stepper_x]
+	uart_pin: PE5
+	run_current: 1.4  
+	hold_current: 1.0
+	interpolate: False```
+
 ## Credits / Notes
