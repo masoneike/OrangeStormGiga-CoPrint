@@ -213,6 +213,9 @@ Push about a foot of filament through each one. The next step will finish loadin
 
 **Check if any filament is detected**
 
+Since you haven't printed anything yet, there shouldn't be anything to detect yet, but it's a good habit to get into so I've put it here for now.
+Until you have performed a print, skip down to "Stage each filament one by one"
+
 Use this console command to check if the sensor has detected any filament from a previous print:
 ```gcode
 QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
