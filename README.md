@@ -2,7 +2,7 @@
 
 > The purpose of this guide is to provide the steps necessary to add a CoPrint KCM Set color upgrade to your Elegoo Orange Storm Giga 3D Printer
 
-![Finished upgrade overview](images/hero-shot.jpg)
+![Finished upgrade overview](images/multicolorprint.png)
 <!-- Swap in a wide "final result" photo here. Keep images in an /images folder next to this file. -->
 
 ---
@@ -20,6 +20,7 @@
 - [Step 7: Perform Calibrations](#step-7-perform-calibrations)
 - [Step 8: Orca Profile Usage](#step-8-orca-profile-usage)
 - [Step 9: Staging Filament](#step-9-staging-filament)
+- [Step 10: Your First Print](#step-10-first-print)
 - [Configuration Files](#configuration-files)
 - [Troubleshooting](#troubleshooting)
 - [Credits / Notes](#credits--notes)
@@ -315,8 +316,12 @@
 ![Step 9 photo](images/step-9.jpg)
 
 
-  Try a print!
+## Step 10:  Your first print
 
+       Import a model into OrcaSlicer
+	   Choose the profile related to the heated beds to activate
+	   Paint model as you see fit
+	   Print!
 
 ## Configuration Files
 
@@ -331,7 +336,8 @@
 
 ## Troubleshooting
 
-	#Errors:
+	#Error: TMC stepper_x
+		
 		TMC 'stepper_x' reports error: DRV_STATUS: 001f01c3 otpw=1(OvertempWarning!) ot=1(OvertempError!) ola=1(OpenLoad_A!) olb=1(OpenLoad_B!) t120=1 cs_actual=31
 		Once the underlying issue is corrected, use the
 		"FIRMWARE_RESTART" command to reset the firmware, reload the
@@ -339,12 +345,15 @@
 		Printer is shutdown		
 
 	#Problem
-		1.8 value for TMC stepper x resulted in the mobo getting hot on that chip during extended x/y movement for gyroid infill across flat plane
 		
+		1.8 value for TMC stepper_x results in the motherboard getting too hot on that chip during extended gyroid infill movements across a flat plane
+		    		
 	#Solution
-		adjusted value to 1.4, due to chroamead being heavier than the original, and it addressed this issue.  
-		alternate is to put a fan on the mobo
-		- confirm your fans are working properly to begin with
+		
+		Adjust value from 1.8 to 1.4 for stepper_x in the printer.cfg file
+		Issue is caused by the chroamead being heavier than the original. 
+		
+				
 
 ## Notes
 
