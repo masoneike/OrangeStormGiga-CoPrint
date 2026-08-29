@@ -303,4 +303,7 @@ Printer is shutdown
 	hold_current: 1.0
 	interpolate: False
 ```
+
+## License
 	
+This project is licensed under the MIT License — see the LICENSE file for details.
