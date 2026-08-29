@@ -2,9 +2,6 @@
 
 > The purpose of this guide is to provide the steps necessary to add a CoPrint KCM Set color upgrade to your Elegoo Orange Storm Giga 3D Printer
 
-![Finished upgrade overview](images/multicolorprint.png)
-<!-- Swap in a wide "final result" photo here. Keep images in an /images folder next to this file. -->
-
 ---
 
 ## Table of Contents
@@ -67,7 +64,6 @@ Raise it about an inch from the build plate — anywhere around there is fine.
 
 This step is essential for proper calibration once the Chromahead components are installed. If you don't do this step, you risk breaking the hotend when it comes to homing and calibration time, like I did.
 
-![Step 1 photo](images/step-1.jpg)
 
 ## Step 2: Enable Root Access
 
@@ -77,7 +73,7 @@ Enable root access for your machine using the LCD menu.
 
 This step is required in order to get the username/password to log into your device using SSH. This will allow you to get the device IDs specific to your CoPrint hardware so you can update the configs.
 
-![Step 2 photo](images/step-2.jpg)
+
 
 ## Step 3: Print CoPrint Models and Mount Hardware
 
@@ -100,7 +96,7 @@ I used 2 zip ties to strap this assembly to the top rear crossbar of the Giga.
 6. Attach the Chromahead cable to the KCM, and run a USB cable from the KCM to the USB drive port on the front of the Giga.
 7. Verify all of your connections.
 
-![Step 3 photo](images/step-3.jpg)
+
 
 ## Step 4: Update Configs
 
@@ -131,7 +127,7 @@ Copy these values into the config:
 
 Save your config changes.
 
-![Step 4 photo](images/step-4.jpg)
+
 
 ## Step 5: First Boot
 
@@ -161,13 +157,13 @@ cd ~/moonraker/scripts
 ./set-policykit-rules.sh
 ```
 
-![Step 5 photo](images/step-5.jpg)
+
 
 ## Step 6: Set Z Offset
 
 Using the LCD, home the printer, and then set the new Z offset for your Chromahead. You should have plenty of room to lower it thanks to the previous step.
 
-![Step 6 photo](images/step-6.jpg)
+
 
 ## Step 7: Perform Calibrations
 
@@ -175,7 +171,7 @@ Perform platform measurement, auto leveling, and input shaping using the LCD set
 
 > **Note:** requires the `bed_mesh.cfg` and `input_shaper.cfg` files to be included properly in your `printer.cfg`.
 
-![Step 7 photo](images/step-7.jpg)
+
 
 ## Step 8: Orca Profile Usage
 
@@ -207,7 +203,6 @@ Load your filaments in the CX1 units so they match the slicer order, going from 
 
 Push about a foot of filament through each one. The next step will finish loading them properly for printing.
 
-![Step 8 photo](images/step-8.jpg)
 
 ## Step 9: Staging Your Filament
 
@@ -269,7 +264,6 @@ LOAD_FILAMENT
 ```
 > Wait for "AutoLoad Finished".
 
-![Step 9 photo](images/step-9.jpg)
 
 ## Step 10: Your First Print
 
