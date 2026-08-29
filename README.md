@@ -212,7 +212,7 @@
   There is a profile for how to using a single bed, and one for all 4 beds. 
   This is how you control what beds bet heated for your prints.
 	
-  # Choose profile for number of heated beds required	
+ # Choose profile for number of heated beds required	
 	
   Two provided example profiles: 
   ALL :  All beds are turned on
@@ -226,15 +226,15 @@
 	
   # Filament order for the slicer and CX1 motors	 
 	
- Set the colors in the slicer to match how they are loaded in the CX motors
+  Set the colors in the slicer to match how they are loaded in the CX motors
 
- Example:
+  Example:
 	
- OrcaSlicer has 4 filaments added as follows:
+  OrcaSlicer has 4 filaments added as follows:
 	
- 1 = White, 2= Green, 3=Blue, 4=Black
+  1 = White, 2= Green, 3=Blue, 4=Black
    
- Load your filaments in the CX1 units so they match the slicer order, going from left to right:
+  Load your filaments in the CX1 units so they match the slicer order, going from left to right:
 		
 	1st CX= White, 2nd CX= Green, 3rd CX= Blue,  4th CX=Black
 				
@@ -248,22 +248,22 @@
 ## Step 9:  Staging your filament
 
    
- # See if any filament is detected
+  # See if any filament is detected
   
- Use this console command to check if the sensor has detected any filament from a previous print:
+  Use this console command to check if the sensor has detected any filament from a previous print:
    
- QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
+  QUERY_FILAMENT_SENSOR SENSOR=filament_sensor
 	
- If filament is detected then you will need to unload it using a console command:
+  If filament is detected then you will need to unload it using a console command:
    	
- Filament -> CX motor reference: 	
+  Filament -> CX motor reference: 	
 	1 -> T0
 	2 -> T1
 	3 -> T2
 	4 -> T3	
       
    
- Example: Unload the 1st filament
+  Example: Unload the 1st filament
    
 	T0  
 	UNLOAD_FILAMENT
