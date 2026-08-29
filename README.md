@@ -60,7 +60,7 @@
     
 	While your machine is on..  Adjust the Z offset of the existing extruder in preparation for configuring the new one
     
-	LCD - Advanced settings - >  Z Offset
+	LCD - Advanced settings - Printhead Selection -  Z Offset
     Raise it about an inch from the build plate.  Anywhere around there is fine.
 	
 > **Important** 
@@ -80,32 +80,54 @@
   This step is required in order to get the username:password to log into your device using SSH.  This will allow you to  
   get the device IDs specific to your coprint hardware so you can update the configs.    
 
-
+  
 ![Step 2 photo](images/step-2.jpg)
 
-## Step 3: Print Mount Hardware
+## Step 3: Print CoPrint models and Mount Hardware
 
-  Mount your kit.
+  Feel free to do your own thing here to mount the motors, but here is what I did.
   
   AssemblyParts.zip from CoPrint github
   
-  How I have it rigged for now..  4 brackets and 2 zip ties strapped around the bracket model and the top bar of the giga
+  Print:
+  3 L brackets 
+  1 motor mount bar  
+  1 Chromahead adapter plate
   
+  I used 2 zip ties to strap this assembly to the top rear crossbar of the giga  
+
+
+  Power off the GIGA 
   
+  Remove the old Orange Extruder and set it aside for later use
+  
+  Install the printed adapter plate to the original giga mounting plate on the gantry
+  
+  Mount the Chromahead to the adapter plate
+  
+  Screw in the 8in1 feeder and attach it's connector and run the filament tubes to each motor, doesn't match which one
+
+  Attach the Chromahead cable to the KCM, run a USB cable from the KCM to the USB Drive port on the front of the Giga
+  
+  Verify all of your connections
 
 ![Step 3 photo](images/step-3.jpg)
 
 
-## Step 4: Update Configs
 
+## Step 4: Update Configs
      
-     Power your coprint on
-     Power your Giga on
+	 Attach the old Orange Extruder, using the original cable, to one of the open plugs like it was Before
+	   - Rest the extruder on the gantry for now as this is temporary
+	   
+     Power your CoPrint on
+     
+	 Power your Giga on
 	 
-	 It will boot to an error on the LCD but you can still access the device via the UI or SSH
+	 It will boot to an error on the LCD, but you can still access the device via the UI or SSH
 	 
 	 
-	 SSH into the giga device with username:password from Step 2
+	 SSH into the giga device with username:password acquired from Step 2
 	 
 	#List Device IDs
 	 	  
@@ -134,7 +156,32 @@
      From now on, you need both the chromahead AND the original giga print head connected during the first time the printer boots.	 Once the boot is successful, and you see 
 	 the normal Elegoo Home screen without errors, you can then remove the original print head for the next operations.  I just leave my original extruder dangling on the gantry.
 	 
-	 There is probably a way to bypass this in the config but I haven't researched that as it's a minor inconvenience to connect it at boot for now
+	 There is probably a way to bypass this in the config but I haven't researched that as it's a minor inconvenience to connect it at boot for now	 	  
+	 
+	 At this point in Fluidd you will see this error in the UI and log:
+	 
+           Server configuration error: Error Reading Config: '/home/mks/klipper_config/moonraker.conf' Loaded server from most recent working configuration: '/home/mks/klipper_config/.moonraker.conf.bkp' Please fix the issue in moonraker.conf and restart the server.
+		   
+	Supplied path (/home/mks/printer_data/gcodes) for (gcodes) is invalid. Make sure that the path exists and is not the file system root.
+    Supplied path (/home/mks/printer_data/gcodes) for (gcodes) is invalid. Make sure that the path exists and is not the file system root.
+	
+	
+	 
+	 #Reset gcode permissions
+	 
+	 SSH into the device
+	 
+	 cd to /home/mks/printer_data	 
+	 
+	 chmod --reference=/home/mks/printer_data/config /home/mks/printer_data/gcodes
+	 
+	 sudo chown -R elegoo:elegoo /home/mks/printer_data/gcodes
+     
+	 cd ~/moonraker/scripts
+	 
+	 ./set-policykit-rules.sh
+	
+
 
 ![Step 5 photo](images/step-5.jpg)
 
@@ -199,8 +246,6 @@
 
 ## Step 9:  Staging your filament
 
-
-  > **Before each print** 
    
    # See if any filament is detected
    
@@ -229,7 +274,9 @@
     	
    # Stage each filament one by one     
    
-    Run these console commands to make sure each filament is ready for printing in the chromahead.  Each filament will get auto-loaded until the filament is detected in the chromahead, then retract a little and "Park" itself.  You will see this happen in the console for each filament.  
+   Run these console commands to make sure each filament is ready for printing in the chromahead.
+   Each filament will get auto-loaded until the filament is detected in the chromahead, then retract a little and "Park" itself. 
+   You will see this happen in the console for each filament.  
  
          
    The FIRST filament to print, should be staged LAST.
@@ -267,7 +314,7 @@
 ![Step 9 photo](images/step-9.jpg)
 
 
-....Now you are ready to try a print..
+   Try a print!
 
 
 ## Configuration Files
@@ -283,9 +330,23 @@
 
 ## Troubleshooting
 
-**Problem:** Something doesn't work
-**Fix:** How to fix it
+		#Error:
+		TMC 'stepper_x' reports error: DRV_STATUS: 001f01c3 otpw=1(OvertempWarning!) ot=1(OvertempError!) ola=1(OpenLoad_A!) olb=1(OpenLoad_B!) t120=1 cs_actual=31
+		Once the underlying issue is corrected, use the
+		"FIRMWARE_RESTART" command to reset the firmware, reload the
+		config, and restart the host software.
+		Printer is shutdown		
 
-## Credits / Notes
+		#Problem
+		1.8 value for TMC stepper x resulted in the mobo getting hot on that chip during extended x/y movement for gyroid infill across flat plane
+		
+		#Solution
+		adjusted value to 1.4, due to chroamead being heavier than the original, and it addressed this issue.  
+		   alternate is to put a fan on the mobo
+			 - confirm your fans are working properly to begin with
 
-Any acknowledgements, source links, or license info.
+
+## Notes
+
+
+		
