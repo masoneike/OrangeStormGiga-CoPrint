@@ -69,7 +69,7 @@ This step is essential for proper calibration once the Chromahead components are
 
 Enable root access for your machine using the LCD menu.
 
-**LCD → Advanced Settings → Enable Root?**
+**LCD → Advanced Settings → Root**
 
 This step is required in order to get the username/password to log into your device using SSH. This will allow you to get the device IDs specific to your CoPrint hardware so you can update the configs.
 
@@ -86,7 +86,7 @@ Print:
 - 1 motor mount bar
 - 1 Chromahead adapter plate
 
-I used 2 zip ties to strap this assembly to the top rear crossbar of the Giga.
+I used screws from the coprint kit to mount the brackets to the motor mount.  Then I used 2 zip ties to secure this assembly to the top rear crossbar of the Giga.
 
 1. Power off the Giga.
 2. Remove the old Orange extruder and set it aside for later use.
@@ -121,17 +121,21 @@ usb-head_stm32f103xe_48FF6D067265545217210187-if00
 usb-kcm_stm32f103xe_53FF6A067189564955502487-if00
 ```
 
-Copy these values into the config:
+
+Open each of the following config files and add your device IDs:
 - `chromahead.cfg` gets the `usb-head` device ID from above, where noted in the file with `CHANGETOYOURHARDWAREIDHERE`
 - `kcm.cfg` gets the `usb-kcm` device ID from above, where noted in the file with `CHANGETOYOURHARDWAREIDHERE`
 
-Save your config changes.
+No other changes to the config files should be necessary on your part.
 
+Upload the new config files to the Giga through the UI
 
 
 ## Step 5: First Boot
 
-From now on, you need both the Chromahead **and** the original Giga print head connected during the first time the printer boots. Once the boot is successful and you see the normal Elegoo home screen without errors, you can then remove the original print head for the next operations. I just leave my original extruder dangling on the gantry.
+From now on, you need both the Chromahead **and** the original Giga print head connected during the first time the printer boots.
+Once the boot is successful and you see the normal Elegoo home screen without errors, you can then remove the original print head 
+for the next operations. I just leave my original extruder dangling on the gantry.
 
 There is probably a way to bypass this in the config, but I haven't researched that — it's a minor inconvenience to connect it at boot for now.
 
@@ -161,7 +165,8 @@ cd ~/moonraker/scripts
 
 ## Step 6: Set Z Offset
 
-Using the LCD, home the printer, and then set the new Z offset for your Chromahead. You should have plenty of room to lower it thanks to the previous step.
+Using the LCD, home the printer, and then set the new Z offset for your Chromahead.
+You should have plenty of room to lower it thanks to the previous step.
 
 
 
