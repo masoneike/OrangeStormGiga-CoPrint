@@ -51,6 +51,11 @@ What I backed up:
 - `plr.cfg`
 - `printer.cfg`
 - `znp_mcu.cfg`
+- `znp_thr1.cfg`
+- `znp_thr2.cfg`
+- `znp_thr3.cfg`
+- `znp_thr4.cfg`
+
 
 ## Step 1: Adjust Z Offset
 
@@ -71,8 +76,8 @@ Enable root access for your machine using the LCD menu.
 
 **LCD → Advanced Settings → Root**
 
-This step is required in order to get the username/password to log into your device using SSH. This will allow you to get the device IDs specific to your CoPrint hardware so you can update the configs.
-
+This step is required in order to get the username/password to log into your device using SSH.
+This will allow you to get the device IDs specific to your CoPrint hardware so you can update the configs
 
 
 ## Step 3: Print CoPrint Models and Mount Hardware
@@ -100,8 +105,8 @@ I used screws from the coprint kit to mount the brackets to the motor mount.  Th
 
 ## Step 4: Update Configs
 
-Attach the old Orange extruder, using the original cable, to one of the open plugs like it was before.
-- Rest the extruder on the gantry for now — this is temporary.
+Attach the old Orange extruder, using the original cable, to one of the open sockets like it was before.
+- Rest the extruder on the gantry for now — this is temporary
 
 Power your CoPrint on, then power your Giga on.
 
@@ -135,11 +140,11 @@ Upload the new config files to the Giga through the UI
 
 From now on, you need both the Chromahead **and** the original Giga print head connected during the first time the printer boots.
 Once the boot is successful and you see the normal Elegoo home screen without errors, you can then remove the original print head 
-for the next operations. I just leave my original extruder dangling on the gantry.
+for your print operations. I just leave my original extruder dangling on the gantry.
 
 There is probably a way to bypass this in the config, but I haven't researched that — it's a minor inconvenience to connect it at boot for now.
 
-At this point, in Fluidd you will see this error in the UI and log:
+At this point, in Fluidd you will see this error in Fluidd and klipper.log:
 
 ```
 Server configuration error: Error Reading Config: '/home/mks/klipper_config/moonraker.conf'
@@ -167,7 +172,6 @@ cd ~/moonraker/scripts
 
 Using the LCD, home the printer, and then set the new Z offset for your Chromahead.
 You should have plenty of room to lower it thanks to the previous step.
-
 
 
 ## Step 7: Perform Calibrations
